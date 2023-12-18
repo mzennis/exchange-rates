@@ -21,7 +21,6 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -34,7 +33,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -47,7 +45,7 @@ import androidx.compose.ui.window.PopupProperties
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import id.mzennis.rates.ui.model.MainIntent
-import id.mzennis.rates.ui.model.ScreenState
+import id.mzennis.rates.ui.model.MainScreenState
 import id.mzennis.rates.ui.model.UiEvent
 import id.mzennis.rates.ui.model.UiState
 import id.mzennis.rates.ui.theme.Green
@@ -266,11 +264,11 @@ fun ExpandedDropdownUi(
 }
 
 @Composable
-fun ProgressUi(screenState: ScreenState, modifier: Modifier = Modifier) {
+fun ProgressUi(screenState: MainScreenState, modifier: Modifier = Modifier) {
     val (label, color) = when(screenState) {
-        ScreenState.Loading -> "Loading..." to Yellow
-        ScreenState.Available -> "Ready to serve" to Green
-        ScreenState.UnAvailable -> "Unavailable" to Red
+        MainScreenState.Loading -> "Loading..." to Yellow
+        MainScreenState.Available -> "Ready to serve" to Green
+        is MainScreenState.Unavailable -> screenState.errorMessage to Red
     }
     Text(text = label, color = color, modifier = modifier)
 }

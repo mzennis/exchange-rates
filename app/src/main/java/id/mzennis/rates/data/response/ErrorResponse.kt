@@ -1,13 +1,14 @@
 package id.mzennis.rates.data.response
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.Serializable
 
 /**
  * Created by meyta.taliti on 04/11/23.
  */
+@Serializable
 data class ErrorResponse(
-    @SerializedName("error") val error: Boolean,
-    @SerializedName("status") val status: Int,
-    @SerializedName("message") val message: String,
-    @SerializedName("description") val description: String,
+    val error: Boolean,
+    val status: Int,
+    val message: String,
+    val description: String,
 )
