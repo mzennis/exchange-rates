@@ -3,7 +3,6 @@ package id.mzennis.rates.util.di
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,10 +24,5 @@ object AppModule {
     @Provides
     fun provideAppSession(@ApplicationContext context: Context): DataStore<Preferences> {
         return context.appSessionDataStore
-    }
-
-    @Provides
-    fun provideGson(): Gson {
-        return Gson()
     }
 }

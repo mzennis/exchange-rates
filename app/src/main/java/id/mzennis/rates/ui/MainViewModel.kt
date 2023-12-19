@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.mzennis.rates.data.RateRepository
 import id.mzennis.rates.ui.model.MainIntent
-import id.mzennis.rates.ui.model.ScreenState
+import id.mzennis.rates.ui.model.MainScreenState
 import id.mzennis.rates.ui.model.UiEvent
 import id.mzennis.rates.ui.model.UiState
 import id.mzennis.rates.util.CurrencyFormatter
@@ -45,7 +45,7 @@ class MainViewModel @Inject constructor(
     val uiEvent: SharedFlow<UiEvent>
         get() = _uiEvent
 
-    private val _screenState = MutableStateFlow(ScreenState.Loading)
+    private val _screenState = MutableStateFlow<MainScreenState>(MainScreenState.Loading)
     private val _exchangeRate = repository.exchangeRate
     private val _convertedAmount = MutableStateFlow(0.0)
 
@@ -72,9 +72,14 @@ class MainViewModel @Inject constructor(
         val amountInDouble = amount.toDoubleOrNull() ?: return
 
         viewModelScope.launch {
-            val result = convertCurrency(amountInDouble, from, to, _exchangeRate.value.data)
-
-            _convertedAmount.emit(result)
+            _screenState.emit(MainScreenState.Loading)
+            try {
+                val result = convertCurrency(amountInDouble, from, to, _exchangeRate.value.data)
+                _convertedAmount.emit(result)
+                _screenState.emit(MainScreenState.Available)
+            } catch (e: Throwable) {
+                _screenState.emit(MainScreenState.Unavailable(e.message ?: "Something went wrong"))
+            }
         }
     }
 
@@ -96,12 +101,12 @@ class MainViewModel @Inject constructor(
 
     private fun doUpdate() {
         viewModelScope.launch {
-            _screenState.emit(ScreenState.Loading)
+            _screenState.emit(MainScreenState.Loading)
             try {
                 repository.getExchangeRate()
-                _screenState.emit(ScreenState.Available)
+                _screenState.emit(MainScreenState.Available)
             } catch (e: Throwable) {
-                _screenState.emit(ScreenState.UnAvailable)
+                _screenState.emit(MainScreenState.Unavailable(e.message ?: "Something went wrong"))
             }
         }
     }

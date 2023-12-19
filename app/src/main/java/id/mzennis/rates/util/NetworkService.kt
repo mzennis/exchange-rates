@@ -8,12 +8,15 @@ import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.request.get
 import io.ktor.http.appendPathSegments
-import io.ktor.serialization.gson.gson
+import io.ktor.serialization.kotlinx.json.json
+import kotlinx.serialization.json.Json
 import javax.inject.Inject
 
 val ktorClient = HttpClient(CIO) {
     install(ContentNegotiation) {
-        gson()
+        json(Json {
+            ignoreUnknownKeys = true
+        })
     }
 }
 
