@@ -15,7 +15,7 @@ class LocalDataSource @Inject constructor(
     private val mapper: DataMapper,
 ) {
 
-    suspend fun exchangeRate(): ExchangeRate {
+    suspend fun getExchangeRate(): ExchangeRate {
         val pref = dataStore.data.first()
         val data = pref[keyRates].orEmpty()
         return ExchangeRate(
