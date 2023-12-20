@@ -26,7 +26,7 @@ Free and Reliable Exchange Rates App.
 **Dependency Injection**—[Dagger Hilt](https://dagger.dev/hilt/) with [KSP](https://kotlinlang.org/docs/ksp-overview.html)
 
 ## Credits
-This software uses the following open source packages:
+This software uses the following:
 
 - [Open Exchange Rates API](https://docs.openexchangerates.org/reference/api-introduction)
 - [SVG Repo-App Icon](https://www.svgrepo.com/svg/301555/exchange-rate-rate)
