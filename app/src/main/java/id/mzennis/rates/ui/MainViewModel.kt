@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.mzennis.rates.data.RateRepository
+import id.mzennis.rates.data.model.ExchangeRate
 import id.mzennis.rates.ui.model.MainIntent
 import id.mzennis.rates.ui.model.MainScreenState
 import id.mzennis.rates.ui.model.UiEvent
@@ -46,7 +47,7 @@ class MainViewModel @Inject constructor(
         get() = _uiEvent
 
     private val _screenState = MutableStateFlow<MainScreenState>(MainScreenState.Loading)
-    private val _exchangeRate = repository.exchangeRate
+    private val _exchangeRate = MutableStateFlow(ExchangeRate.Empty)
     private val _convertedAmount = MutableStateFlow(0.0)
 
     private val _uiEvent = MutableSharedFlow<UiEvent>()
@@ -103,7 +104,8 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             _screenState.emit(MainScreenState.Loading)
             try {
-                repository.getExchangeRate()
+                val result = repository.get()
+                _exchangeRate.emit(result)
                 _screenState.emit(MainScreenState.Available)
             } catch (e: Throwable) {
                 _screenState.emit(MainScreenState.Unavailable(e.message ?: "Something went wrong"))
