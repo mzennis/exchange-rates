@@ -8,6 +8,7 @@
 
 ## About
 Free and Reliable Exchange Rates App.
+Full article on [Medium](https://medium.com/@meytataliti/android-an-exchange-rate-app-open-source-daa37f60021c)!
 <br /><br /><img src="assets/demo.gif" />
 
 **Architecture—Clean Architecture, UDF (with [Kotlin Flow](https://developer.android.com/kotlin/flow), [Kotlin Coroutines](https://developer.android.com/kotlin/coroutines)), MVVM**
