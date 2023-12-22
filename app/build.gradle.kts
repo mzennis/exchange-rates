@@ -1,3 +1,6 @@
+import com.android.build.api.variant.BuildConfigField
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -5,10 +8,20 @@ plugins {
     id("com.google.dagger.hilt.android")
     id("org.jetbrains.kotlin.plugin.serialization")
 }
+androidComponents{
+    onVariants {
+        it.buildConfigFields.put(
+            "api_key", BuildConfigField(type = "String",value = gradleLocalProperties(rootDir).getProperty("api_key"),comment = null)
+        )
+    }
+}
 
 android {
     namespace = "id.mzennis.rates"
     compileSdk = 34
+    buildFeatures {
+        buildConfig = true
+    }
 
     defaultConfig {
         applicationId = "id.mzennis.rates"

@@ -1,5 +1,6 @@
 package id.mzennis.rates.util
 
+import id.mzennis.rates.BuildConfig
 import id.mzennis.rates.data.response.ErrorResponse
 import id.mzennis.rates.data.response.ExchangeRatesResponse
 import io.ktor.client.HttpClient
@@ -25,7 +26,7 @@ class NetworkService @Inject constructor(
 )  {
 
     companion object {
-        const val APP_ID = "eced127164574211bece271f08d89c0e"
+        const val APP_ID = BuildConfig.api_key
         private const val URL = "https://openexchangerates.org/api/"
     }
 
